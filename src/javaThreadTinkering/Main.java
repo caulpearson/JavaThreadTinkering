@@ -1,5 +1,7 @@
 package javaThreadTinkering;
 
+import javaThreadTinkering.Deadlock.Friend;
+
 //public class Main implements Runnable {
 //public class Main extends Thread {
 public class Main{
@@ -31,18 +33,8 @@ public class Main{
 			}
 		}
 	}
-	
-	public static void main(String args[]) {
-		
+	public static void SimpleThread() {
 		long patience = 1000*60*60;
-		if(args.length > 0) {
-			try {
-				patience = Long.parseLong(args[0]) * 1000;
-			} catch (NumberFormatException e) {
-				System.err.println("Argument must be integer");
-				System.exit(1);
-			}
-		}
 		
 		threadMessage("Starting message loop thread");
 		long startTime = System.currentTimeMillis();
@@ -66,5 +58,25 @@ public class Main{
 			
 		}
 		threadMessage("Finally Complete");
+	}
+	
+	public static void TestDeadlock() {
+		final Friend friend1 = new Friend("name1");
+		final Friend friend2 = new Friend("name2");
+		new Thread(new Runnable() {
+			public void run() {
+				friend1.bow(friend2);
+			}
+		}).start();
+		new Thread(new Runnable() {
+			public void run() {
+				friend2.bow(friend1);
+			}
+		}).start();
+	}
+	
+	public static void main(String args[]) {
+		//SimpleThread();
+		TestDeadlock();
 	}
 }
