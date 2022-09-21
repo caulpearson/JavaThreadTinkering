@@ -1,6 +1,7 @@
 package javaThreadTinkering;
 
 public class SynchronizedStatements {
+	private boolean joy = false;
 	private long c1 = 0;
 	private long c2 = 0;
 	private Object lock1 = new Object();
@@ -16,5 +17,23 @@ public class SynchronizedStatements {
 		synchronized(lock2) {
 			c2++;
 		}
+	}
+	
+	public synchronized void setJoy() {
+		try {
+			Thread.sleep(3000);
+		}catch(InterruptedException ex) {
+			System.out.println(ex);
+		}
+		joy = !joy;
+	}
+	
+	public synchronized void guardedJoy() {
+		while(!joy) {
+			try {
+				wait();
+			} catch (InterruptedException e) {}
+		}
+		System.out.println("Joy acheived");
 	}
 }
