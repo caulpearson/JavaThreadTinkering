@@ -1,5 +1,8 @@
 package javaThreadTinkering;
 
+import ProducerConsumer.Consumer;
+import ProducerConsumer.Drop;
+import ProducerConsumer.Producer;
 import javaThreadTinkering.Deadlock.Friend;
 
 //public class Main implements Runnable {
@@ -77,6 +80,9 @@ public class Main{
 	
 	public static void main(String args[]) {
 		//SimpleThread();
-		TestDeadlock();
+		//TestDeadlock();
+		Drop drop = new Drop();
+		(new Thread(new Producer(drop))).start();
+		(new Thread(new Consumer(drop))).start();
 	}
 }
